@@ -9,21 +9,3 @@
 	<input id="number" type="number" min="1" @bind="N" @bind:after="OutputFibonacci" />
 </div>
 <h3>Ряд Фибоначчи:<br> @string.Join(", ", fib)</h3>
-
-@code {
-	int n = 0;
-	BigInteger[] fib = { };
-	int N
-	{
-		get => n;
-		set => n = value < 0 ? 0 : value;
-	}
-	void OutputFibonacci()
-	{
-		fib = new BigInteger[n];
-		for (int i = 0; i < n; i++)
-		{
-			fib[i] = i == 0 ? 1 : i == 1 ? 1 : fib[i - 1] + fib[i - 2];
-		}
-	}
-}
