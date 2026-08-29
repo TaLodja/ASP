@@ -1,11 +1,15 @@
-﻿.power div
+﻿.power
+{
+    font-size:24px;
+}
+.power div
 {
     display:flex;
-    width: 40%;
+    width: 60%;
 }
 .power label
 {
-    width:70%;
+    width:300px;
 }
 .power input
 {
@@ -15,4 +19,5 @@
 .power h3
 {
     margin-top:16px;
+    font-size:48px;
 }
