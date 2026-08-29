@@ -1,0 +1,17 @@
+﻿@page "/Power"
+@rendermode InteractiveServer
+
+<h1>Power</h1>
+
+<div class="power">
+	<div>
+		<label for="base">Основание степени (а):</label>
+		<input id="base" type="number" @bind="A" @bind:after="Calculate" />
+	</div>
+
+	<div>
+		<label for="power">Степень (n):</label>
+		<input id="power" type="number" @bind="n" @bind:after="Calculate" />
+	</div>
+	<h3>@A<sup>@n</sup> = @result.ToString("F4")</h3>
+</div>

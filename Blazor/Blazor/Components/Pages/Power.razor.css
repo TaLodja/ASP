@@ -1,0 +1,18 @@
+﻿.power div
+{
+    display:flex;
+    width: 40%;
+}
+.power label
+{
+    width:70%;
+}
+.power input
+{
+    width:30%;
+    text-align:center;
+}
+.power h3
+{
+    margin-top:16px;
+}
