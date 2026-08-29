@@ -5,7 +5,7 @@
 
 <h1>Factorial</h1>
 
-<input type="number" min="0" @bind="n" @bind:after="Calculate" />
+<input type="number" min="0" @bind="N" @bind:after="Calculate" />
 <h3>! = @f</h3>
 <button class="btn btn-primary" @onclick="Calculate">Calculate</button>
 
@@ -13,6 +13,11 @@
 	int n = 0;  //RAII - Resource Aquisition is Initialization
 				//		(Выделение ресурсов - это Инициализация)
 	BigInteger f = 1;
+	int N
+	{
+		get => n;
+		set => n = value < 0 ? 0 : value;
+	}
 	void Calculate()
 	{
 		f = 1;
