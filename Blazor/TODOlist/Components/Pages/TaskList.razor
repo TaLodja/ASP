@@ -8,12 +8,34 @@
 <ul>
 	@foreach (TODO task in tasklist)
 	{
-			<li>
+		<li>
+			<label>
 				<input type="checkbox" @bind="@task.DONE" />
-				@task.Description
-			</li>
+				<span class="task-text">@task.Description</span>
+			</label>
+			<button class="btn-delete" @onclick="() => DeleteTask(task)">x</button>
+		</li>
 	}
 </ul>
+
+<button class="btn btn-danger" @onclick="DeleteDoneTasks">
+	Удалить все выполненные задания
+</button>
+
+<div>
+	Всего задач: 
+	<span style="font-size: 20px; font-weight: bold;color: black;">@TotalTasks</span>
+</div>
+
+<div>
+	Выполнено задач: 
+	<span style="font-size: 20px; font-weight: bold;color: black;">@DoneTasks</span>
+</div>
+
+<div>
+	Осталось задач: 
+	<span style="font-size: 20px; font-weight: bold;color: black;">@UnfinishedTasks</span>
+</div>
 
 @code
 {
@@ -25,6 +47,10 @@
 	new TODO{ Description = "Сходить в магаз", DONE = true }
 	];
 	//List<TODO> tasklist = new List<TODO>();
+	int TotalTasks => tasklist.Count;
+	int DoneTasks => tasklist.Count(task => task.DONE);
+	int UnfinishedTasks => TotalTasks - DoneTasks;
+
 	void AddTask()
 	{
 		if (!string.IsNullOrEmpty(description) && !string.IsNullOrWhiteSpace(description))
@@ -34,5 +60,17 @@
 			tasklist.Add(task);
 			description = "";
 		}
+	}
+	void DeleteTask(TODO task)
+	{
+		tasklist.Remove(task);
+	}
+	void DeleteDoneTasks()
+	{
+		tasklist.RemoveAll(task => task.DONE);
+		//for (int i = tasklist.Count-1; i >=0; i--)
+		//{
+		//	if (tasklist[i].DONE == true) tasklist.RemoveAt(i);
+		//}
 	}
 }

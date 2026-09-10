@@ -1,0 +1,37 @@
+﻿input[type="checkbox"]:checked +.task-text
+{
+    text-decoration: line-through;
+}
+.task-text
+{
+    cursor:pointer;
+}
+.btn-delete
+{
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 0px 6px;
+    font-size: 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.btn-delete:hover
+{
+    background-color: darkred;
+}
+.statistic-number 
+{
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+.statustic-value 
+{
+   background: #f8f9fa; 
+   border: 1px solid #dee2e6; 
+   padding: 12px 20px; 
+   border-radius: 6px; 
+   min-width: 150px; 
+   text-align: center;
+}
