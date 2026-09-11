@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor", "Blazor\Blazor.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TODOlist", "TODOlist\TODOlist.csproj", "{B1C39A99-E868-47DC-ACB7-1E4B6D6B42F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Converter", "Converter\Converter.csproj", "{84CD6C37-F518-4FBB-B1EE-15508945EFE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{B1C39A99-E868-47DC-ACB7-1E4B6D6B42F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1C39A99-E868-47DC-ACB7-1E4B6D6B42F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1C39A99-E868-47DC-ACB7-1E4B6D6B42F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{84CD6C37-F518-4FBB-B1EE-15508945EFE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84CD6C37-F518-4FBB-B1EE-15508945EFE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84CD6C37-F518-4FBB-B1EE-15508945EFE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84CD6C37-F518-4FBB-B1EE-15508945EFE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

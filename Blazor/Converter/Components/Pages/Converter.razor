@@ -1,0 +1,124 @@
+﻿@page "/Converter"
+@rendermode InteractiveServer
+@using System;
+
+
+<h2>Converter</h2>
+
+<div style="display: flex; gap: 20px;">
+	<div style="text-align: center;">
+		<label for="fromNumericSystem">Из какой системы счисления</label>
+		<select id="fromNumericSystem" @bind="fromSystemName" @bind:after="Convertation" style="text-align: center;">
+			@foreach (NumericSystem system in numericSystems)
+			{
+				<option value="@system.Name">@system.Name</option>
+			}
+		</select>
+	</div>
+	<button class="btn btn-primary" @onclick="SwapSystem" style="cursor:pointer;">&#x2194;</button>
+	<div style="text-align: center">
+		<label for="fromNumericSystem">В какую систему счисления</label>
+		<select id="toNumericSystem" @bind="toSystemName" @bind:after="Convertation" style="text-align: center;">
+			@foreach (NumericSystem system in numericSystems)
+			{
+				<option value="@system.Name">@system.Name</option>
+			}
+		</select>
+	</div>
+</div>
+
+<div class="inputValue">
+	<label for="inputValue">Введите число</label>
+	<input type="text" id="inputValue" @oninput="HandleInput"/>
+</div>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+	<p style="color: red; font-weight: bold;">Error: @errorMessage</p>
+}
+else if (!string.IsNullOrEmpty(resultValue))
+{
+	<h3>@inputValue<sub>@fromSystemBase</sub> = @resultValue<sub>@toSystemBase</sub></h3>
+}
+
+@code
+{
+	List<NumericSystem> numericSystems = new()
+		{
+		new NumericSystem {Name = "Десятичная", Base = 10 },
+		new NumericSystem {Name = "Двоичная", Base = 2 },
+		new NumericSystem {Name = "Шестнадцатиричная", Base = 16 }
+		};
+
+	string fromSystemName = "Десятичная";
+	string toSystemName = "Двоичная";
+
+	string inputValue = "";
+	string resultValue = "";
+	string errorMessage = "";
+
+	int fromSystemBase = 10;
+	int toSystemBase = 2;
+
+	void HandleInput(ChangeEventArgs e)
+	{
+		inputValue = e.Value.ToString();
+		Convertation();
+	}
+
+	void Convertation()
+	{
+		errorMessage = "";
+		resultValue = "";
+		if (string.IsNullOrWhiteSpace(inputValue)) return;
+		try
+		{
+			NumericSystem fromSystem = numericSystems.FirstOrDefault(s => s.Name == fromSystemName);
+			NumericSystem toSystem = numericSystems.FirstOrDefault(s => s.Name == toSystemName);
+			if (fromSystem == null || toSystem == null)
+				throw new ArgumentException("Error: Не правильна система счисления!");
+			fromSystemBase = fromSystem.Base;
+			toSystemBase = toSystem.Base;
+			int decimalValue;
+			switch(fromSystem.Base)
+			{
+				case 2:
+					decimalValue = Convert.ToInt32(inputValue, 2);
+					break;
+				case 16:
+					decimalValue = Convert.ToInt32(inputValue.Trim(), 16);
+					break;
+				default:
+					decimalValue = int.Parse(inputValue);
+					break;
+			}
+			switch(toSystem.Base)
+			{
+				case 2:
+					resultValue = Convert.ToString(decimalValue, 2);
+					break;
+				case 16:
+					resultValue = decimalValue.ToString("X");
+					break;
+				default:
+					resultValue = decimalValue.ToString();
+					break;
+			}
+		}
+		catch(Exception ex)
+		{
+			errorMessage = ex.Message;
+		}
+	}
+	void SwapSystem()
+	{
+		string tempName = fromSystemName;
+		fromSystemName = toSystemName;
+		toSystemName = tempName;
+		string tempValue = inputValue;
+		inputValue = resultValue;
+		resultValue = tempValue;
+
+		Convertation();
+	}
+}
