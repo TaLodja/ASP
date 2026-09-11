@@ -27,9 +27,8 @@
 	</div>
 </div>
 
-<div class="inputValue">
-	<label for="inputValue">Введите число</label>
-	<input type="text" id="inputValue" @oninput="HandleInput"/>
+<div style="padding: 20px; text-align: center;">
+	<input type="text" id="inputValue" @oninput="HandleInput" style="width: 150px;text-align:center;" placeholder="Введите число"/>
 </div>
 
 @if (!string.IsNullOrEmpty(errorMessage))
@@ -38,7 +37,7 @@
 }
 else if (!string.IsNullOrEmpty(resultValue))
 {
-	<h3>@inputValue<sub>@fromSystemBase</sub> = @resultValue<sub>@toSystemBase</sub></h3>
+	<h1 style="text-align: center;">@inputValue<sub>@fromSystemBase</sub> = @resultValue<sub>@toSystemBase</sub></h1>
 }
 
 @code
