@@ -15,13 +15,16 @@
 </p>
 
 <QuickGrid Class="table" Items="context.Movie">
-    <PropertyColumn Property="movie => movie.Title" />
+    @* <PropertyColumn Property="movie => movie.Title" /> *@
+    <TemplateColumn>
+        <a href="@($"movies/details?id={context.Id}")">@context.Title</a>
+    </TemplateColumn>
     <PropertyColumn Property="movie => movie.ReleaseDate" />
     <PropertyColumn Property="movie => movie.Genre" />
 
-    <TemplateColumn Context="movie">
+    @* <TemplateColumn Context="movie">
         <a href="@($"movies/details?id={movie.Id}")">Details</a> 
-    </TemplateColumn>
+    </TemplateColumn> *@
 </QuickGrid>
 
 @code {
