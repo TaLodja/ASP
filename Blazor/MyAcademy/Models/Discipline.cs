@@ -7,7 +7,7 @@ namespace MyAcademy.Models;
 public partial class Discipline
 {
     [Key]
-    public short discipline_id { get; set; }
+    public int discipline_id { get; set; }
 
     public string? discipline_name { get; set; }
 
