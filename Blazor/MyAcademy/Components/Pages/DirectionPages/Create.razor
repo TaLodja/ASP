@@ -6,17 +6,17 @@
 
 <PageTitle>Create</PageTitle>
 
-<h1>Create</h1>
+@* <h1>Create</h1> *@
 
-<h2>Direction</h2>
+<h2>Создать новое направление обучения</h2>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <EditForm method="post" Model="Direction" OnValidSubmit="AddDirection" FormName="create" Enhance>
+        <EditForm Model="Direction" OnValidSubmit="AddDirection" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
             <div class="mb-3">
-                <label for="direction_name" class="form-label">direction_name:</label> 
+                <label for="direction_name" class="form-label">Название:</label> 
                 <InputText id="direction_name" @bind-Value="Direction.direction_name" class="form-control" /> 
                 <ValidationMessage For="() => Direction.direction_name" class="text-danger" /> 
             </div>        

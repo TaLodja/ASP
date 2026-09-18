@@ -49,3 +49,13 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+.nav-item {
+    white-space: nowrap; /* Запрещаем перенос */
+    overflow: hidden; /* Скрываем лишнее */
+    text-overflow: ellipsis; /* Добавляем троеточие (...) */
+    max-width: 100%; /* Важно: ограничиваем ширину родителя */
+}
+
+.nav-link span {
+    margin-right: 10px;
+}

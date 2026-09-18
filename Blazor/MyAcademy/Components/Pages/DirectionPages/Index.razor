@@ -6,21 +6,22 @@
 @implements IAsyncDisposable
 @inject IDbContextFactory<MyAcademy.Data.MyAcademyContext> DbFactory
 
-<PageTitle>Index</PageTitle>
+@* <PageTitle>Index</PageTitle> *@
 
-<h1>Index</h1>
+<h1>Направления обучения</h1>
 
 <p>
-    <a href="directions/create">Create New</a>
+    <a href="directions/create" class="btn btn-primary">Create new</a>
 </p>
 
 <QuickGrid Class="table" Items="context.Directions">
     <PropertyColumn Property="direction => direction.direction_name" />
 
     <TemplateColumn Context="direction">
-        <a href="@($"directions/edit?direction_id={direction.direction_id}")">Edit</a> |
-        <a href="@($"directions/details?direction_id={direction.direction_id}")">Details</a> |
-        <a href="@($"directions/delete?direction_id={direction.direction_id}")">Delete</a>
+        <a href="@($"directions/edit/{direction.direction_id}")">Edit</a> |
+        <a href="@($"directions/delete?direction_id={direction.direction_id}")" class="btn btn-danger">
+            Delete
+        </a>
     </TemplateColumn>
 </QuickGrid>
 

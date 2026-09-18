@@ -1,14 +1,14 @@
-﻿@page "/directions/edit"
+﻿@page "/directions/edit/{direction_id:int}"
 @using Microsoft.EntityFrameworkCore
 @using MyAcademy.Models
 @inject IDbContextFactory<MyAcademy.Data.MyAcademyContext> DbFactory
 @inject NavigationManager NavigationManager
 
-<PageTitle>Edit</PageTitle>
+@* <PageTitle>Edit</PageTitle> *@
 
-<h1>Edit</h1>
+@* <h1>Edit</h1> *@
 
-<h2>Direction</h2>
+<h2>Редактирование направления обучения</h2>
 <hr />
 @if (Direction is null)
 {
@@ -18,12 +18,12 @@ else
 {
     <div class="row">
         <div class="col-md-4">
-            <EditForm method="post" Model="Direction" OnValidSubmit="UpdateDirection" FormName="edit" Enhance>
+            <EditForm Model="Direction" OnValidSubmit="UpdateDirection" Enhance>
                 <DataAnnotationsValidator />
                 <ValidationSummary role="alert"/>
-                <input type="hidden" name="Direction.direction_id" value="@Direction.direction_id" />
+                <input type="hidden" name="direction_id" value="@Direction.direction_id" />
                 <div class="mb-3">
-                    <label for="direction_name" class="form-label">direction_name:</label>
+                    <label for="direction_name" class="form-label">Направление обучения:</label>
                     <InputText id="direction_name" @bind-Value="Direction.direction_name" class="form-control" />
                     <ValidationMessage For="() => Direction.direction_name" class="text-danger" />
                 </div>
@@ -38,8 +38,8 @@ else
 </div>
 
 @code {
-    [SupplyParameterFromQuery]
-    private byte direction_id { get; set; }
+    [Parameter]
+    public int direction_id { get; set; }
 
     [SupplyParameterFromForm]
     private Direction? Direction { get; set; }
@@ -47,7 +47,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        Direction ??= await context.Directions.FirstOrDefaultAsync(m => m.direction_id == direction_id);
+        byte id = (byte)direction_id;
+        Direction = await context.Directions.FirstOrDefaultAsync(m => m.direction_id == direction_id);
 
         if (Direction is null)
         {

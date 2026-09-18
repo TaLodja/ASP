@@ -11,7 +11,7 @@
 <h1>Index</h1>
 
 <p>
-    <a href="disciplines/create">Create New</a>
+    <a href="/disciplines/create" class="btn btn-primary">Create New</a>
 </p>
 
 <QuickGrid Class="table" Items="context.Disciplines">
@@ -19,9 +19,9 @@
     <PropertyColumn Property="discipline => discipline.number_of_lessons" />
 
     <TemplateColumn Context="discipline">
-        <a href="@($"disciplines/edit?discipline_id={discipline.discipline_id}")">Edit</a> |
-        <a href="@($"disciplines/details?discipline_id={discipline.discipline_id}")">Details</a> |
-        <a href="@($"disciplines/delete?discipline_id={discipline.discipline_id}")">Delete</a>
+        <a href="@($"/disciplines/edit?discipline_id={discipline.discipline_id}")">Edit</a> |
+        <a href="@($"/disciplines/details?discipline_id={discipline.discipline_id}")">Details</a> |
+        <a href="@($"/disciplines/delete?discipline_id={discipline.discipline_id}")">Delete</a>
     </TemplateColumn>
 </QuickGrid>
 

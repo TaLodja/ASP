@@ -29,7 +29,7 @@ else
                 </div>
                 <div class="mb-3">
                     <label for="number_of_lessons" class="form-label">number_of_lessons:</label>
-                    <InputText id="number_of_lessons" @bind-Value="Discipline.number_of_lessons" class="form-control" />
+                    <InputNumber id="number_of_lessons" @bind-Value="Discipline.number_of_lessons" class="form-control" />
                     <ValidationMessage For="() => Discipline.number_of_lessons" class="text-danger" />
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>

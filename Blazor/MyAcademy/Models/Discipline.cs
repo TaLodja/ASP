@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MyAcademy.Models;
 
 public partial class Discipline
 {
+    [Key]
     public short discipline_id { get; set; }
 
     public string? discipline_name { get; set; }
 
-    public byte number_of_lessons { get; set; }
+    public int number_of_lessons { get; set; }
 
     public virtual ICollection<Exam> Exams { get; set; } = new List<Exam>();
 

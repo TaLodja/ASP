@@ -12,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <EditForm method="post" Model="Discipline" OnValidSubmit="AddDiscipline" FormName="create" Enhance>
+        <EditForm Model="Discipline" OnValidSubmit="AddDiscipline" Enhance>
             <DataAnnotationsValidator />
             <ValidationSummary class="text-danger" role="alert"/>
             <div class="mb-3">
@@ -22,7 +22,7 @@
             </div>        
             <div class="mb-3">
                 <label for="number_of_lessons" class="form-label">number_of_lessons:</label> 
-                <InputText id="number_of_lessons" @bind-Value="Discipline.number_of_lessons" class="form-control" /> 
+                <InputNumber id="number_of_lessons" @bind-Value="Discipline.number_of_lessons" class="form-control" /> 
                 <ValidationMessage For="() => Discipline.number_of_lessons" class="text-danger" /> 
             </div>        
             <button type="submit" class="btn btn-primary">Create</button>
