@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoviesClass", "MoviesClass\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyAcademy", "MyAcademy\MyAcademy.csproj", "{E9A1541D-56E5-49D6-A8D3-217FCBF00A63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academy", "Academy\Academy.csproj", "{07909BAC-B56D-41BA-A1CB-71DC24A56206}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E9A1541D-56E5-49D6-A8D3-217FCBF00A63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9A1541D-56E5-49D6-A8D3-217FCBF00A63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9A1541D-56E5-49D6-A8D3-217FCBF00A63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07909BAC-B56D-41BA-A1CB-71DC24A56206}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07909BAC-B56D-41BA-A1CB-71DC24A56206}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07909BAC-B56D-41BA-A1CB-71DC24A56206}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07909BAC-B56D-41BA-A1CB-71DC24A56206}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
