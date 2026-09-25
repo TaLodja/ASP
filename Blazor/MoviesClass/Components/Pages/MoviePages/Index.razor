@@ -14,8 +14,13 @@
 
 <div class="controls">
     <p>
-        <a href="movies/create">Create New</a>
+        <a href="movies/create" class="btn btn-primary">Добавиьт</a>
     </p>
+    <form action="/movies">
+        <input type="search" name="titleFilter" placeholder="Название"/>
+        <input type="search" name="genreFilter" placeholder="Жанр"/>
+        <input type="submit" value="Поиск" class="btn btn-primary"/>
+    </form>
     <select @bind="pagination.ItemsPerPage">
         <option value="3">3</option>
         <option value="5">5</option>
@@ -25,17 +30,17 @@
 </div>
 
 <div>
-    <QuickGrid Class="table" Items="context.Movie" Pagination="pagination">
+    <QuickGrid Class="table" Items="FilteredMovies" Pagination="pagination">
         @* <PropertyColumn Property="movie => movie.Title" /> *@
         <TemplateColumn Title="Title" 
-                        Class="movie-title"
-                        Sortable="true" 
-                        SortBy="sortBy">
+        Class="movie-title"
+        Sortable="true" 
+        SortBy="sortBy">
             <a href="@($"movies/details?id={context.Id}")">@context.Title</a>
         </TemplateColumn>
         <PropertyColumn Property="movie => movie.ReleaseDate" Sortable="true" />
         <PropertyColumn Property="movie => movie.Genre" />
-    
+
         @* <TemplateColumn Context="movie">
             <a href="@($"movies/details?id={movie.Id}")">Details</a>
         </TemplateColumn> *@
@@ -48,6 +53,15 @@
     GridSort<Movie> sortBy = GridSort<Movie>.ByAscending(mbox => mbox.Title);
 
     PaginationState pagination = new PaginationState { ItemsPerPage = 3 };
+
+    [SupplyParameterFromQuery]
+    string titleFilter { get; set; }
+    [SupplyParameterFromQuery]
+    string genreFilter { get; set; }
+    private IQueryable<Movie> FilteredMovies =>
+        context.Movie
+        .Where(m => m.Title.Contains(titleFilter ?? string.Empty))
+        .Where(m => m.Genre.Contains(genreFilter ?? string.Empty));
 
     protected override void OnInitialized()
     {
