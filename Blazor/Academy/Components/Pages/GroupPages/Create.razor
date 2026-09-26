@@ -24,7 +24,17 @@
             <div class="mb-3">
                 <span class="text-danger">*</span>
                 <label for="direction" class="form-label">direction:</label> 
-                <InputNumber id="direction" @bind-Value="Group.direction" class="form-control" aria-required="true"/> 
+                <InputSelect id="direction" @bind-Value="Group.direction" class="form-control">
+                    <option selected disabled> --- Выберите направление обучения --- </option>
+                    @using (Academy.Data.AcademyContext context = DbFactory.CreateDbContext())
+                    {
+                        @foreach (Direction direction in context.Directions)
+                        {
+                             <option value="@direction.direction_name">@direction.direction_name</option>
+                        }
+                    }
+                    </InputSelect>
+                @* <InputNumber id="direction" @bind-Value="Group.direction" class="form-control" aria-required="true"/> *@ 
                 <ValidationMessage For="() => Group.direction" class="text-danger" /> 
             </div>        
             <div class="mb-3">
