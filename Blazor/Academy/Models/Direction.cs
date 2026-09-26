@@ -9,5 +9,8 @@ namespace Academy.Models
 		[Column(TypeName = "TINYINT")]
 		public int direction_id { get; set; }
 		public string direction_name { get; set; }
+
+		//Navigation properies:
+		public ICollection<Group> Groups { get; set; }
 	}
 }
