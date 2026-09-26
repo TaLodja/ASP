@@ -80,6 +80,13 @@
         .Where(student => student.first_name.Contains(firstnameFilter ?? string.Empty))
         .Where(student => student.Group.group_name.Contains(groupFilter ?? string.Empty));
 
+        // .Where
+        // (
+        //     student => student.last_name.Contains(titleFilter ?? string.Empty) ||
+        //     student => student.first_name.Contains(titleFilter ?? string.Empty) ||
+        //     student => student.middle_name.Contains(titleFilter ?? string.Empty)
+        // )
+
     protected override void OnInitialized()
     {
         context = DbFactory.CreateDbContext();
