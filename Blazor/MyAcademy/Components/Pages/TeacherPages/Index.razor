@@ -15,25 +15,53 @@
     <p>
         <a href="teachers/create" class="btn btn-primary">Добавить</a>
     </p>
+    <form action="/teachers">
+        <input type="search" name="lastnameFilter" placeholder="Фамилия"/>
+        <input type="submit" value="Поиск" class="btn btn-primary"/>
+    </form>
+    <div>
+        <label for="items-per-page"></label>
+        <select @bind="@pagination.ItemsPerPage" id="items-per-page">
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+    </div>
 </div>
 
-<QuickGrid Class="table" Items="context.Teachers">
-    <PropertyColumn Property="teacher => teacher.teacher_id" />
-     <TemplateColumn Context="teacher"
-                     Title="ФИО учителя">
-     <a href="@($"teachers/details?teacher_id={teacher.teacher_id}")">@($"{teacher.last_name} {teacher.first_name} {teacher.middle_name}")</a>
-    </TemplateColumn>
-    <PropertyColumn Property="teacher => teacher.birth_date" />
+<div>
+    <div class="grid-container">
+        <QuickGrid Class="table" Items="FilteredTeachers" Pagination="pagination">
+            <PropertyColumn Property="teacher => teacher.teacher_id" Sortable="true"/>
+            <TemplateColumn Context="teacher"
+                            Title="ФИО учителя"
+                            SortBy="@sortByName">
+                <a href="@($"teachers/details?teacher_id={teacher.teacher_id}")">@($"{teacher.last_name} {teacher.first_name} {teacher.middle_name}")</a>
+            </TemplateColumn>
+            <PropertyColumn Property="teacher => teacher.birth_date" />
 
-    @* <TemplateColumn Context="teacher">
-        <a href="@($"teachers/edit?teacher_id={teacher.teacher_id}")">Edit</a> |
-        <a href="@($"teachers/details?teacher_id={teacher.teacher_id}")">Details</a> |
-        <a href="@($"teachers/delete?teacher_id={teacher.teacher_id}")">Delete</a>
-    </TemplateColumn> *@
-</QuickGrid>
+            @* <TemplateColumn Context="teacher">
+                <a href="@($"teachers/edit?teacher_id={teacher.teacher_id}")">Edit</a> |
+                <a href="@($"teachers/details?teacher_id={teacher.teacher_id}")">Details</a> |
+                <a href="@($"teachers/delete?teacher_id={teacher.teacher_id}")">Delete</a>
+            </TemplateColumn> *@
+        </QuickGrid>
+    </div>
+    <Paginator State="pagination"/>
+</div>
 
 @code {
     private MyAcademyContext context = default!;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 15 };
+
+    GridSort<Teacher> sortByName = GridSort<Teacher>.ByAscending(t => t.last_name);
+
+    [SupplyParameterFromQuery]
+    string lastnameFilter { get; set; }
+
+    private IQueryable<Teacher> FilteredTeachers =>
+        context.Teachers
+        .Where(t => t.last_name.Contains(lastnameFilter ?? string.Empty));
 
     protected override void OnInitialized()
     {

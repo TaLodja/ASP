@@ -15,26 +15,59 @@
     <p>
         <a href="students/create" class="btn btn-primary">Добавить</a>
     </p>
+    <form action="/students">
+        <input type="search" name="lastnameFilter" placeholder="Фамилия"/>
+        <input type="search" name="groupFilter" placeholder="Группа"/>
+        <input type="submit" value="Поиск" class="btn btn-primary"/>
+    </form>
+    <div>
+        <label for="items-per-page"></label>
+        <select @bind="pagination.ItemsPerPage" id="items-per-page">
+            <option value="10">10</option>
+            <option value="20">20</option>
+        </select>
+    </div>
+
 </div>
 
-<QuickGrid Class="table" Items="context.Students.Include(s => s.Group)">
-    <PropertyColumn Property="student => student.stud_id" />
-    <TemplateColumn Context="student"
-                    Title="ФИО студента">
-        <a href="@($"students/details?stud_id={student.stud_id}")">@($"{student.last_name} {student.first_name} {student.middle_name}")</a>
-    </TemplateColumn>
-    <PropertyColumn Property="student => student.birth_date" />
-    <PropertyColumn Property="student => student.Group.group_name" />
+<div>
+    <div class="grid-container">
+        <QuickGrid Class="table" Items="FilteredStudents" Pagination="pagination">
+            <PropertyColumn Property="student => student.stud_id" Sortable="true"/>
+            <TemplateColumn Context="student"
+                            Title="ФИО студента"
+                            SortBy="sortByName">
+                <a href="@($"students/details?stud_id={student.stud_id}")">@($"{student.last_name} {student.first_name} {student.middle_name}")</a>
+            </TemplateColumn>
+            <PropertyColumn Property="student => student.birth_date" />
+            <PropertyColumn Property="student => student.Group.group_name" Sortable="true"/>
 
-    @* <TemplateColumn Context="student">
-        <a href="@($"students/edit?stud_id={student.stud_id}")">Edit</a> |
-        <a href="@($"students/details?stud_id={student.stud_id}")">Details</a> |
-        <a href="@($"students/delete?stud_id={student.stud_id}")">Delete</a>
-    </TemplateColumn> *@
-</QuickGrid>
+            @* <TemplateColumn Context="student">
+                <a href="@($"students/edit?stud_id={student.stud_id}")">Edit</a> |
+                <a href="@($"students/details?stud_id={student.stud_id}")">Details</a> |
+                <a href="@($"students/delete?stud_id={student.stud_id}")">Delete</a>
+            </TemplateColumn> *@
+        </QuickGrid>
+    </div>
+    <Paginator State="pagination"/>
+</div>
 
 @code {
     private MyAcademyContext context = default!;
+    PaginationState pagination = new PaginationState { ItemsPerPage = 20 };
+
+    GridSort<Student> sortByName = GridSort<Student>.ByAscending(s => s.last_name);
+
+    [SupplyParameterFromQuery]
+    string lastnameFilter { get; set; }
+    [SupplyParameterFromQuery]
+    string groupFilter { get; set; }
+
+    private IQueryable<Student> FilteredStudents =>
+        context.Students
+        .Include(s => s.Group)
+        .Where(s => s.last_name.Contains(lastnameFilter ?? string.Empty))
+        .Where(s => s.Group.group_name.Contains(groupFilter ?? string.Empty));
 
     protected override void OnInitialized()
     {

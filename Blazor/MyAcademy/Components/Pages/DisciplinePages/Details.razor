@@ -4,27 +4,53 @@
 @inject IDbContextFactory<MyAcademy.Data.MyAcademyContext> DbFactory
 @inject NavigationManager NavigationManager
 
-<PageTitle>Details</PageTitle>
+<PageTitle>Disciplines</PageTitle>
 
-<h1>Details</h1>
+@* <h1>Details</h1> *@
 
 <div>
-    <h2>Discipline</h2>
-    <hr />
+    @* <h2>Discipline</h2>
+    <hr /> *@
     @if (discipline is null)
     {
         <p><em>Loading...</em></p>
     }
     else {
+        <div class="controls">
+            <h1>@discipline.discipline_name</h1>
+            <p>
+                <a href="@($"/disciplines/edit?discipline_id={discipline.discipline_id}")" class="btn btn-primary">Edit</a>
+            </p>
+        </div>
         <dl class="row">
-            <dt class="col-sm-2">discipline_name</dt>
-            <dd class="col-sm-10">@discipline.discipline_name</dd>
+            <dt class="col-sm-2">Количество преподавателей по дисциплине:</dt>
+            <dd class="col-sm-10">@discipline.TeacherDisciplines.Count</dd>
             <dt class="col-sm-2">number_of_lessons</dt>
             <dd class="col-sm-10">@discipline.number_of_lessons</dd>
         </dl>
         <div>
-            <a href="@($"/disciplines/edit?discipline_id={discipline.discipline_id}")">Edit</a> |
             <a href="@($"/disciplines")">Back to List</a>
+        </div>
+        <hr />
+        <div>
+            <p>Преподаватели, читающие данную дисциплину:</p>
+            @if(discipline.TeacherDisciplines.Any())
+            {
+                <ol>
+                    @foreach(TeacherDiscipline teacher in discipline.TeacherDisciplines)
+                    {
+                        <lI>
+                            <a href="@($"/teachers/details?teacher_id={teacher.Teacher.teacher_id}")">
+                                @($"{teacher.Teacher.last_name} {teacher.Teacher.first_name} {teacher.Teacher.middle_name}")
+                            </a>
+                        </lI>
+                    }
+                </ol>
+            }
+            else
+            {
+                <p>По данной дисциплине не назначен преподаватель</p>
+            }
         </div>
     }
 </div>
@@ -38,7 +64,7 @@
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        discipline = await context.Disciplines.FirstOrDefaultAsync(m => m.discipline_id == discipline_id);
+        discipline = await context.Disciplines.Include(d => d.TeacherDisciplines).ThenInclude(td => td.Teacher).FirstOrDefaultAsync(m => m.discipline_id == discipline_id);
 
         if (discipline is null)
         {

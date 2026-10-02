@@ -56,7 +56,7 @@
                     @foreach(TeacherDiscipline discipline in teacher.TeacherDisciplines)
                     {
                         <li>
-                            <a href="@($"/disciplines/details?discipline_id={discipline.Discipline}")">@discipline.Discipline.discipline_name</a>
+                            <a href="@($"/disciplines/details?discipline_id={discipline.Discipline.discipline_id}")">@discipline.Discipline.discipline_name</a>
                         </li>
                     }
                 </ol>
