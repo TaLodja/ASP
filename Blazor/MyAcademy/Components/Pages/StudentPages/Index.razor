@@ -1,0 +1,45 @@
+﻿@page "/students"
+@rendermode InteractiveServer
+
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using MyAcademy.Models
+@using MyAcademy.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<MyAcademy.Data.MyAcademyContext> DbFactory
+
+<PageTitle>Students</PageTitle>
+
+<div class=controls>
+    <h1>Студенты</h1>
+    <p>
+        <a href="students/create" class="btn btn-primary">Добавить</a>
+    </p>
+</div>
+
+<QuickGrid Class="table" Items="context.Students.Include(s => s.Group)">
+    <PropertyColumn Property="student => student.stud_id" />
+    <TemplateColumn Context="student"
+                    Title="ФИО студента">
+        <a href="@($"students/details?stud_id={student.stud_id}")">@($"{student.last_name} {student.first_name} {student.middle_name}")</a>
+    </TemplateColumn>
+    <PropertyColumn Property="student => student.birth_date" />
+    <PropertyColumn Property="student => student.Group.group_name" />
+
+    @* <TemplateColumn Context="student">
+        <a href="@($"students/edit?stud_id={student.stud_id}")">Edit</a> |
+        <a href="@($"students/details?stud_id={student.stud_id}")">Details</a> |
+        <a href="@($"students/delete?stud_id={student.stud_id}")">Delete</a>
+    </TemplateColumn> *@
+</QuickGrid>
+
+@code {
+    private MyAcademyContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
