@@ -18,6 +18,6 @@ namespace MyAcademy.Models
 		public int number_of_lessons { get; set; }
 
 		//Navigation properties:
-		//public ICollection<TeacherDiscipline> TeacherDisciplines { get; set; }
+		public ICollection<TeacherDiscipline> TeacherDisciplines { get; set; }
 	}
 }

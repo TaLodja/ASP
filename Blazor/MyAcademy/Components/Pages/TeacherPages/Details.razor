@@ -4,41 +4,67 @@
 @inject IDbContextFactory<MyAcademy.Data.MyAcademyContext> DbFactory
 @inject NavigationManager NavigationManager
 
-<PageTitle>Details</PageTitle>
+<PageTitle>Teachers</PageTitle>
 
-<h1>Details</h1>
+@* <h1>Details</h1> *@
 
 <div>
-    <h2>Teacher</h2>
-    <hr />
+    @* <h2>Teacher</h2>
+    <hr /> *@
     @if (teacher is null)
     {
         <p><em>Loading...</em></p>
     }
     else {
+        <div class="controls">
+            <h1>@($"{teacher.last_name} {teacher.first_name} {teacher.middle_name}")</h1>
+            <p>
+                <a href="@($"/teachers/edit?teacher_id={teacher.teacher_id}")" class="btn btn-primary">Edit</a>
+            </p>
+        </div>
         <dl class="row">
-            <dt class="col-sm-2">last_name</dt>
+            @* <dt class="col-sm-2">last_name</dt>
             <dd class="col-sm-10">@teacher.last_name</dd>
             <dt class="col-sm-2">first_name</dt>
             <dd class="col-sm-10">@teacher.first_name</dd>
             <dt class="col-sm-2">middle_name</dt>
-            <dd class="col-sm-10">@teacher.middle_name</dd>
+            <dd class="col-sm-10">@teacher.middle_name</dd> *@
+            <dt class="col-sm-2">Количество читаемых дисциплин:</dt>
+            <dd class="col-sm-10">@teacher.TeacherDisciplines.Count</dd>
             <dt class="col-sm-2">birth_date</dt>
             <dd class="col-sm-10">@teacher.birth_date</dd>
             <dt class="col-sm-2">email</dt>
             <dd class="col-sm-10">@teacher.email</dd>
             <dt class="col-sm-2">phone</dt>
             <dd class="col-sm-10">@teacher.phone</dd>
-            <dt class="col-sm-2">photo</dt>
-            <dd class="col-sm-10">@teacher.photo</dd>
+            @* <dt class="col-sm-2">photo</dt> *@
+            @* <dd class="col-sm-10">@teacher.photo</dd> *@
             <dt class="col-sm-2">work_since</dt>
             <dd class="col-sm-10">@teacher.work_since</dd>
             <dt class="col-sm-2">rate</dt>
             <dd class="col-sm-10">@teacher.rate</dd>
         </dl>
         <div>
-            <a href="@($"/teachers/edit?teacher_id={teacher.teacher_id}")">Edit</a> |
             <a href="@($"/teachers")">Back to List</a>
+        </div>
+        <hr />
+        <div>
+            <p>Читаемые дисциплины:</p>
+            @if (teacher.TeacherDisciplines.Any())
+            {
+                <ol>
+                    @foreach(TeacherDiscipline discipline in teacher.TeacherDisciplines)
+                    {
+                        <li>
+                            <a href="@($"/disciplines/details?discipline_id={discipline.Discipline}")">@discipline.Discipline.discipline_name</a>
+                        </li>
+                    }
+                </ol>
+            }
+            else
+            {
+                <p>У данного преподавателя не назначены дисциплины</p>
+            }
         </div>
     }
 </div>
@@ -52,7 +78,7 @@
     protected override async Task OnInitializedAsync()
     {
         using var context = DbFactory.CreateDbContext();
-        teacher = await context.Teachers.FirstOrDefaultAsync(m => m.teacher_id == teacher_id);
+        teacher = await context.Teachers.Include(t => t.TeacherDisciplines).ThenInclude(td => td.Discipline).FirstOrDefaultAsync(m => m.teacher_id == teacher_id);
 
         if (teacher is null)
         {

@@ -39,6 +39,6 @@ namespace MyAcademy.Models
 		public decimal? rate { get; set; }
 
 		//Navigation properties:
-		//public ICollection<TeacherDiscipline> TeacherDisciplines { get; set; }
+		public ICollection<TeacherDiscipline> TeacherDisciplines { get; set; }
 	}
 }

@@ -19,5 +19,18 @@ namespace MyAcademy.Data
         public DbSet<MyAcademy.Models.Student> Students { get; set; } = default!;
         public DbSet<MyAcademy.Models.Discipline> Disciplines { get; set; } = default!;
         public DbSet<MyAcademy.Models.Teacher> Teachers { get; set; } = default!;
-    }
+        public DbSet<MyAcademy.Models.TeacherDiscipline> TeacherDisciplines { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<TeacherDiscipline>
+                (entity =>
+                {
+                    entity.ToTable("TeachersDisciplinesRelation");
+                    entity.HasKey(e => new { e.teacher, e.discipline });
+                }
+                );
+		}
+	}
 }
