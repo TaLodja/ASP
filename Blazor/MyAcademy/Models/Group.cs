@@ -28,5 +28,6 @@ namespace MyAcademy.Models
 
 		//Navigation properies:
 		public Direction Direction { get; set; }
+		public ICollection<Student> Students { get; set; }
 	}
 }
