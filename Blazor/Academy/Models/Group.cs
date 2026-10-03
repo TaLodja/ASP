@@ -18,6 +18,7 @@ namespace Academy.Models
 		public int direction { get; set; }
 
 		[Column("weekdays", TypeName = "TINYINT")]
+		//[DisplayName("Учебные дни")]
 		public int? learning_days { get; set; }
 
 		[Column("start_time", TypeName = "TIME(0)")]
