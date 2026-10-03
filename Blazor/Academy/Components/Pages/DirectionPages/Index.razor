@@ -52,7 +52,11 @@
     [SupplyParameterFromQuery]  //Работа поиска
     string TitleFilter { get; set; }
     IQueryable<Direction> FilteredDirections =>
-    context.Directions.Where(d => d.direction_name.Contains(TitleFilter ?? string.Empty));
+    context.Directions.Where
+    (
+        d => 
+        d.direction_name.Contains(TitleFilter ?? string.Empty)
+    );
 
     protected override void OnInitialized()
     {
