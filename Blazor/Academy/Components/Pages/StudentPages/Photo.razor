@@ -1,0 +1,28 @@
+﻿<h3>Photo</h3>
+
+@if(Human.photo != null)
+{
+	<img src="data:image;base64,@Convert.ToBase64String(Human.photo)" alt="Фоточка" />
+}
+@if(AllowChange)
+{
+	<InputFile OnChange="LoadPhoto" />
+}
+
+@code 
+{
+	[Parameter]
+	public Models.Human Human { get; set; }
+
+	[Parameter]
+	public bool AllowChange { get; set; }
+
+	IBrowserFile URL { get; set; }
+	async Task LoadPhoto(InputFileChangeEventArgs e)
+	{
+		URL = e.File;
+		MemoryStream ms = new MemoryStream();
+		await URL.OpenReadStream().CopyToAsync(ms);
+		Human.photo = ms.ToArray();
+	}
+}
