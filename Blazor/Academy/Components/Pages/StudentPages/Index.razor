@@ -10,11 +10,12 @@
 
 <PageTitle>Students</PageTitle>
 
-<h1>Студенты</h1>
-
-<p>
-    <a href="students/create">Create New</a>
-</p>
+<div class="controls">
+    <h1>Студенты</h1>
+    <p>
+        <a href="students/create" class="btn btn-primary">Добавить</a>
+    </p>
+</div>
 
 <QuickGrid Class="table" Items="context.Students.Include(s => s.Group).ThenInclude(g => g.Direction)">
     @* <PropertyColumn Property="student => student.last_name" />
