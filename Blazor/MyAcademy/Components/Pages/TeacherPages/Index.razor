@@ -11,7 +11,7 @@
 <PageTitle>Teachers</PageTitle>
 
 <div class=controls>
-    <h1>Студенты</h1>
+    <h1>Преподаватели (@context.Teachers.Count())</h1>
     <p>
         <a href="teachers/create" class="btn btn-primary">Добавить</a>
     </p>
@@ -32,13 +32,20 @@
 <div>
     <div class="grid-container">
         <QuickGrid Class="table" Items="FilteredTeachers" Pagination="pagination">
-            <PropertyColumn Property="teacher => teacher.teacher_id" Sortable="true"/>
+            <PropertyColumn Title="№ п/п" Property="teacher => teacher.teacher_id" Sortable="true"/>
             <TemplateColumn Context="teacher"
-                            Title="ФИО учителя"
+                            Title="Преподаватель"
                             SortBy="@sortByName">
-                <a href="@($"teachers/details?teacher_id={teacher.teacher_id}")">@($"{teacher.last_name} {teacher.first_name} {teacher.middle_name}")</a>
+                <a href="@($"teachers/details?teacher_id={teacher.teacher_id}")">@teacher.FullName</a>
             </TemplateColumn>
-            <PropertyColumn Property="teacher => teacher.birth_date" />
+            <PropertyColumn Title="Дата рождения" Property="teacher => teacher.birth_date" Sortable="true" />
+            <TemplateColumn Context="teacher"
+                            Title="Возраст"
+                            SortBy="@sortByAge">
+                @teacher.FullAge
+            </TemplateColumn>
+            <PropertyColumn Title="Работает с" Property="teacher => teacher.work_since" Sortable="true" />
+            <PropertyColumn Title="Ставка" Property="teacher => teacher.rate" />
 
             @* <TemplateColumn Context="teacher">
                 <a href="@($"teachers/edit?teacher_id={teacher.teacher_id}")">Edit</a> |
@@ -55,6 +62,7 @@
     PaginationState pagination = new PaginationState { ItemsPerPage = 15 };
 
     GridSort<Teacher> sortByName = GridSort<Teacher>.ByAscending(t => t.last_name);
+    GridSort<Teacher> sortByAge = GridSort<Teacher>.ByAscending(d => d.birth_date);
 
     [SupplyParameterFromQuery]
     string lastnameFilter { get; set; }

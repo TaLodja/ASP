@@ -1,4 +1,6 @@
 ﻿@page "/students/edit"
+@rendermode InteractiveServer
+
 @using Microsoft.EntityFrameworkCore
 @using MyAcademy.Models
 @inject IDbContextFactory<MyAcademy.Data.MyAcademyContext> DbFactory
@@ -6,74 +8,67 @@
 
 <PageTitle>Edit</PageTitle>
 
-<h1>Edit</h1>
+@* <h1>Edit</h1>
 
 <h2>Student</h2>
-<hr />
+<hr /> *@
 @if (Student is null)
 {
     <p><em>Loading...</em></p>
 }
 else
 {
+    <h1>@Student.FullName</h1>
+    <hr />
     <div class="row">
         <div class="col-md-4">
             <EditForm method="post" Model="Student" OnValidSubmit="UpdateStudent" FormName="edit" Enhance>
                 <DataAnnotationsValidator />
                 <ValidationSummary role="alert"/>
-                <input type="hidden" name="Student.stud_id" value="@Student.stud_id" />
-                <div class="mb-3">
-                <span class="text-danger">*</span>
-                    <label for="last_name" class="form-label">Фамилия:</label>
-                    <InputText id="last_name" @bind-Value="Student.last_name" class="form-control" aria-required="true"/>
-                    <ValidationMessage For="() => Student.last_name" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                <span class="text-danger">*</span>
-                    <label for="first_name" class="form-label">Имя:</label>
-                    <InputText id="first_name" @bind-Value="Student.first_name" class="form-control" aria-required="true"/>
-                    <ValidationMessage For="() => Student.first_name" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="middle_name" class="form-label">Отчество:</label>
-                    <InputText id="middle_name" @bind-Value="Student.middle_name" class="form-control" />
-                    <ValidationMessage For="() => Student.middle_name" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                <span class="text-danger">*</span>
-                    <label for="birth_date" class="form-label">Дата рождения:</label>
-                    <InputDate id="birth_date" @bind-Value="Student.birth_date" class="form-control" aria-required="true"/>
-                    <ValidationMessage For="() => Student.birth_date" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email:</label>
-                    <InputText id="email" @bind-Value="Student.email" class="form-control" />
-                    <ValidationMessage For="() => Student.email" class="text-danger" />
-                </div>
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Телефон:</label>
-                    <InputText id="phone" @bind-Value="Student.phone" class="form-control" />
-                    <ValidationMessage For="() => Student.phone" class="text-danger" />
-                </div>
-                @* <div class="mb-3">
-                    <label for="photo" class="form-label">photo:</label>
-                    <InputNumber id="photo" @bind-Value="Student.photo" class="form-control" />
-                    <ValidationMessage For="() => Student.photo" class="text-danger" />
-                </div> *@
-                <div class="mb-3">
-                <span class="text-danger">*</span>
-                    <label for="group" class="form-label">Группа:</label>
-                    <InputSelect id="group" @bind-Value="Student.group" class="form-controls">
-                        @using(MyAcademy.Data.MyAcademyContext context = DbFactory.CreateDbContext())
-                        {
-                            foreach(Group group in context.Groups)
-                            {
-                                <option value="@group.group_name">@group.group_name</option>
-                            }
-                        }
-                    </InputSelect>
-                    @* <InputNumber id="group" @bind-Value="Student.group" class="form-control" aria-required="true"/> *@
-                    <ValidationMessage For="() => Student.group" class="text-danger" />
+                <div class="human-container">
+                    <div class="human-text-fields">
+                        <input type="hidden" name="Student.stud_id" value="@Student.stud_id" />
+                        <div class="mb-3">
+                        <span class="text-danger">*</span>
+                            <label for="last_name" class="form-label">Фамилия:</label>
+                            <InputText id="last_name" @bind-Value="Student.last_name" class="form-control" aria-required="true"/>
+                            <ValidationMessage For="() => Student.last_name" class="text-danger" />
+                        </div>
+                        <div class="mb-3">
+                        <span class="text-danger">*</span>
+                            <label for="first_name" class="form-label">Имя:</label>
+                            <InputText id="first_name" @bind-Value="Student.first_name" class="form-control" aria-required="true"/>
+                            <ValidationMessage For="() => Student.first_name" class="text-danger" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="middle_name" class="form-label">Отчество:</label>
+                            <InputText id="middle_name" @bind-Value="Student.middle_name" class="form-control" />
+                            <ValidationMessage For="() => Student.middle_name" class="text-danger" />
+                        </div>
+                        <div class="mb-3">
+                        <span class="text-danger">*</span>
+                            <label for="birth_date" class="form-label">Дата рождения:</label>
+                            <InputDate id="birth_date" @bind-Value="Student.birth_date" class="form-control" aria-required="true"/>
+                            <ValidationMessage For="() => Student.birth_date" class="text-danger" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <InputText id="email" @bind-Value="Student.email" class="form-control" />
+                            <ValidationMessage For="() => Student.email" class="text-danger" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Телефон:</label>
+                            <InputText id="phone" @bind-Value="Student.phone" class="form-control" />
+                            <ValidationMessage For="() => Student.phone" class="text-danger" />
+                        </div>
+                        <SelectGroup Student="Student"/>
+                    </div>
+                    @* <div class="mb-3">
+                        <label for="photo" class="form-label">photo:</label>
+                        <InputNumber id="photo" @bind-Value="Student.photo" class="form-control" />
+                        <ValidationMessage For="() => Student.photo" class="text-danger" />
+                    </div> *@
+                    <Photo Human="Student" AllowChange=true />
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </EditForm>

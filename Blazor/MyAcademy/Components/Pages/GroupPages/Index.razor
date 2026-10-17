@@ -37,8 +37,8 @@
         <QuickGrid Class="table" Items="FilteredGroups" Pagination="pagination">
             <PropertyColumn Property="group => group.group_id" Sortable="true"/>
             <TemplateColumn Context = "group"
-            Title="Группа"
-            SortBy="@sortByGroup">
+                            Title="Группа"
+                            SortBy="@sortByGroup">
                 <a href="@($"groups/details?group_id={group.group_id}")">@group.group_name</a>
             </TemplateColumn>
             <PropertyColumn Property="group => group.Direction.direction_name" Sortable="true"/>

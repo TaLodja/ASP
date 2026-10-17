@@ -11,7 +11,7 @@
 <PageTitle>Students</PageTitle>
 
 <div class=controls>
-    <h1>Студенты</h1>
+    <h1>Студенты (@context.Students.Count())</h1>
     <p>
         <a href="students/create" class="btn btn-primary">Добавить</a>
     </p>
@@ -23,8 +23,9 @@
     <div>
         <label for="items-per-page"></label>
         <select @bind="pagination.ItemsPerPage" id="items-per-page">
+            <option value="5">5</option>
             <option value="10">10</option>
-            <option value="20">20</option>
+            <option value="13">13</option>
         </select>
     </div>
 
@@ -33,14 +34,21 @@
 <div>
     <div class="grid-container">
         <QuickGrid Class="table" Items="FilteredStudents" Pagination="pagination">
-            <PropertyColumn Property="student => student.stud_id" Sortable="true"/>
+            <PropertyColumn Title="№ п/п" Property="student => student.stud_id" Sortable="true"/>
             <TemplateColumn Context="student"
-                            Title="ФИО студента"
+                            Title="Студент"
                             SortBy="sortByName">
-                <a href="@($"students/details?stud_id={student.stud_id}")">@($"{student.last_name} {student.first_name} {student.middle_name}")</a>
+                <a href="@($"students/details?stud_id={student.stud_id}")">@student.FullName</a>
             </TemplateColumn>
-            <PropertyColumn Property="student => student.birth_date" />
-            <PropertyColumn Property="student => student.Group.group_name" Sortable="true"/>
+            <PropertyColumn Title="Дата рождения" Property="student => student.birth_date" Sortable="true"/>
+            <TemplateColumn Context="student"
+                            Title="Возраст"
+                            SortBy="@sortByAge">
+                @student.FullAge
+            </TemplateColumn>
+            <PropertyColumn Title="Группа" Property="student => student.Group.group_name" Sortable="true"/>
+            <PropertyColumn Title="Направление" Property="student => student.Group.Direction.direction_name" />
+            <PropertyColumn Property="student => student.photo" />
 
             @* <TemplateColumn Context="student">
                 <a href="@($"students/edit?stud_id={student.stud_id}")">Edit</a> |
@@ -54,9 +62,10 @@
 
 @code {
     private MyAcademyContext context = default!;
-    PaginationState pagination = new PaginationState { ItemsPerPage = 20 };
+    PaginationState pagination = new PaginationState { ItemsPerPage = 10 };
 
     GridSort<Student> sortByName = GridSort<Student>.ByAscending(s => s.last_name);
+    GridSort<Student> sortByAge = GridSort<Student>.ByAscending(d => d.birth_date);
 
     [SupplyParameterFromQuery]
     string lastnameFilter { get; set; }
@@ -66,6 +75,7 @@
     private IQueryable<Student> FilteredStudents =>
         context.Students
         .Include(s => s.Group)
+        .ThenInclude(d => d.Direction)
         .Where(s => s.last_name.Contains(lastnameFilter ?? string.Empty))
         .Where(s => s.Group.group_name.Contains(groupFilter ?? string.Empty));
 
